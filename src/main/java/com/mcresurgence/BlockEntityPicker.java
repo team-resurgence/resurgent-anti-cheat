@@ -9,46 +9,51 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class BlockEntityPicker {
     private static final Random RANDOM = new Random();
 
-    // List of possible block entities to spawn as fake entities
-    private static final List<Block> BLOCK_ENTITY_TYPES = Arrays.asList(
-            Blocks.FURNACE,
-            Blocks.CHEST,
-            Blocks.ENDER_CHEST,
-            Blocks.HOPPER,
-            Blocks.DROPPER,
-            Blocks.DISPENSER,
-            Blocks.BREWING_STAND,
-            Blocks.BEACON,
-            Blocks.MOB_SPAWNER,
-            Blocks.STANDING_SIGN, // for TileEntitySign
-            Blocks.ENCHANTING_TABLE,
-            Blocks.BED,
-            Blocks.END_GATEWAY,
-//            Shulkers
-            Blocks.WHITE_SHULKER_BOX,
-            Blocks.ORANGE_SHULKER_BOX,
-            Blocks.MAGENTA_SHULKER_BOX,
-            Blocks.LIGHT_BLUE_SHULKER_BOX,
-            Blocks.YELLOW_SHULKER_BOX,
-            Blocks.LIME_SHULKER_BOX,
-            Blocks.PINK_SHULKER_BOX,
-            Blocks.GRAY_SHULKER_BOX,
-            Blocks.SILVER_SHULKER_BOX,
-            Blocks.CYAN_SHULKER_BOX,
-            Blocks.PURPLE_SHULKER_BOX,
-            Blocks.BLUE_SHULKER_BOX,
-            Blocks.BROWN_SHULKER_BOX,
-            Blocks.GREEN_SHULKER_BOX,
-            Blocks.RED_SHULKER_BOX,
-            Blocks.BLACK_SHULKER_BOX
-    );
+    // Map groups of similar blocks together
+    private static final Map<String, List<Block>> BLOCK_ENTITY_GROUPS = new HashMap<>();
+
+    static {
+        // Add groups of block entities
+        BLOCK_ENTITY_GROUPS.put("Furnace", Collections.singletonList(Blocks.FURNACE));
+        BLOCK_ENTITY_GROUPS.put("Chest", Collections.singletonList(Blocks.CHEST));
+        BLOCK_ENTITY_GROUPS.put("Ender Chest", Collections.singletonList(Blocks.ENDER_CHEST));
+        BLOCK_ENTITY_GROUPS.put("Hopper", Collections.singletonList(Blocks.HOPPER));
+        BLOCK_ENTITY_GROUPS.put("Dropper", Collections.singletonList(Blocks.DROPPER));
+        BLOCK_ENTITY_GROUPS.put("Dispenser", Collections.singletonList(Blocks.DISPENSER));
+        BLOCK_ENTITY_GROUPS.put("Brewing Stand", Collections.singletonList(Blocks.BREWING_STAND));
+        BLOCK_ENTITY_GROUPS.put("Beacon", Collections.singletonList(Blocks.BEACON));
+        BLOCK_ENTITY_GROUPS.put("Mob Spawner", Collections.singletonList(Blocks.MOB_SPAWNER));
+        BLOCK_ENTITY_GROUPS.put("Sign", Collections.singletonList(Blocks.STANDING_SIGN));
+        BLOCK_ENTITY_GROUPS.put("Enchantment Table", Collections.singletonList(Blocks.ENCHANTING_TABLE));
+        BLOCK_ENTITY_GROUPS.put("Bed", Collections.singletonList(Blocks.BED));
+        BLOCK_ENTITY_GROUPS.put("End Gateway", Collections.singletonList(Blocks.END_GATEWAY));
+
+        // Add all colors of shulker boxes to a single group
+        BLOCK_ENTITY_GROUPS.put("Shulker Box", Arrays.asList(
+                Blocks.WHITE_SHULKER_BOX,
+                Blocks.ORANGE_SHULKER_BOX,
+                Blocks.MAGENTA_SHULKER_BOX,
+                Blocks.LIGHT_BLUE_SHULKER_BOX,
+                Blocks.YELLOW_SHULKER_BOX,
+                Blocks.LIME_SHULKER_BOX,
+                Blocks.PINK_SHULKER_BOX,
+                Blocks.GRAY_SHULKER_BOX,
+                Blocks.SILVER_SHULKER_BOX,
+                Blocks.CYAN_SHULKER_BOX,
+                Blocks.PURPLE_SHULKER_BOX,
+                Blocks.BLUE_SHULKER_BOX,
+                Blocks.BROWN_SHULKER_BOX,
+                Blocks.GREEN_SHULKER_BOX,
+                Blocks.RED_SHULKER_BOX,
+                Blocks.BLACK_SHULKER_BOX
+        ));
+    }
+
 
     /**
      * Picks a random block entity type and spawns it at the specified position.
@@ -59,7 +64,14 @@ public class BlockEntityPicker {
      */
     public static String spawnRandomBlockEntity(World world, BlockPos pos) {
         // Select a random block type from the list
-        Block blockType = BLOCK_ENTITY_TYPES.get(RANDOM.nextInt(BLOCK_ENTITY_TYPES.size()));
+//        Block blockType = BLOCK_ENTITY_TYPES.get(RANDOM.nextInt(BLOCK_ENTITY_TYPES.size()));
+
+        List<String> groupNames = new ArrayList<>(BLOCK_ENTITY_GROUPS.keySet());
+        String selectedGroup = groupNames.get(RANDOM.nextInt(groupNames.size()));
+
+        // Select a random block within the selected group
+        List<Block> selectedBlocks = BLOCK_ENTITY_GROUPS.get(selectedGroup);
+        Block blockType = selectedBlocks.get(RANDOM.nextInt(selectedBlocks.size()));
 
         // Set the block state at the specified position
         world.setBlockState(pos, blockType.getDefaultState());
