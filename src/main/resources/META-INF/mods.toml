@@ -1,0 +1,20 @@
+modLoader="javafml" # The mod loader type, Java FML for Forge
+loaderVersion="[14,14.23.5]" # Loader version compatibility. Specify that this mod is meant for loader versions up to 14.23.5, non-inclusive of 14.23.6.
+license="MIT"
+
+[[mods]] # Start of the mods list
+modId="resurgent-anti-cheat"
+version="0.1.0"
+displayName="Resurgent AntiCheat"
+description='''
+Resurgent AntiCheat is a server-side mod which obfuscates debug data for minecraft.
+'''
+authors="asonia"
+credits="Team Resurgence"
+logoFile=""
+screenshots=[
+]
+dependencies=[
+    "required:forge@[14.23.5.2854,14.23.5.2855)" # Specifies that this mod requires Forge exactly version 14.23.5.2854
+]
+side="SERVER" # This mod is server-side only
