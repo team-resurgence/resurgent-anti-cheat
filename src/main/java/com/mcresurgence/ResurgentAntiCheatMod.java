@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ResurgentAntiCheatMod.MODID, name = ResurgentAntiCheatMod.NAME, version = ResurgentAntiCheatMod.VERSION)
+@Mod(modid = ResurgentAntiCheatMod.MODID, name = ResurgentAntiCheatMod.NAME, version = ResurgentAntiCheatMod.VERSION, acceptableRemoteVersions = "*", serverSideOnly = true)
 public class ResurgentAntiCheatMod {
     public static final String MODID = "resurgent-anti-cheat";
     public static final String NAME = "Resurgent AntiCheat";
